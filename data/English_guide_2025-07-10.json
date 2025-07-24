@@ -1,0 +1,584 @@
+[
+  {
+    "id": 1,
+    "question": "Potato chips are not ____.",
+    "options": [
+      "crisply",
+      "crunchy",
+      "juicy",
+      "none of these"
+    ],
+    "correctAnswer": "B"
+  },
+  {
+    "id": 2,
+    "question": "Rich food is always ____.",
+    "options": [
+      "sweet",
+      "salty",
+      "creamy",
+      "healthy"
+    ],
+    "correctAnswer": "C"
+  },
+  {
+    "id": 3,
+    "question": "It's very ____ when you are caught telling a lie.",
+    "options": [
+      "pleasing",
+      "embarrassing",
+      "exhausting",
+      "teasing"
+    ],
+    "correctAnswer": "B"
+  },
+  {
+    "id": 4,
+    "question": "I went shopping and bought ____ apples and some oranges.",
+    "options": [
+      "a little",
+      "much",
+      "a few",
+      "no"
+    ],
+    "correctAnswer": "C"
+  },
+  {
+    "id": 5,
+    "question": "If I disagree with my best friend, he gets a bit ____ and starts fighting with me.",
+    "options": [
+      "aggressive",
+      "ambitious",
+      "arrogant",
+      "aloof"
+    ],
+    "correctAnswer": "A"
+  },
+  {
+    "id": 6,
+    "question": "Why is ____ dog barking so loudly?",
+    "options": [
+      "loud",
+      "that",
+      "whose",
+      "none of these"
+    ],
+    "correctAnswer": "B"
+  },
+  {
+    "id": 7,
+    "question": "____ postman is very punctual.",
+    "options": [
+      "Which",
+      "Happy",
+      "Our",
+      "Who"
+    ],
+    "correctAnswer": "C"
+  },
+  {
+    "id": 8,
+    "question": "The young boys were very loud and ____.",
+    "options": [
+      "energetic",
+      "louder",
+      "quickly",
+      "resting"
+    ],
+    "correctAnswer": "A"
+  },
+  {
+    "id": 9,
+    "question": "Sakshi has the ____ handwriting in the class.",
+    "options": [
+      "better",
+      "best",
+      "all",
+      "well"
+    ],
+    "correctAnswer": "B"
+  },
+  {
+    "id": 10,
+    "question": "I did not enjoy the show. It was long and ____.",
+    "options": [
+      "short",
+      "funny",
+      "boring",
+      "kind"
+    ],
+    "correctAnswer": "C"
+  },
+  {
+    "id": 11,
+    "question": "Everyone was amazed by her beauty. She was that ____.",
+    "options": [
+      "fat",
+      "pretty",
+      "loud",
+      "crazy"
+    ],
+    "correctAnswer": "B"
+  },
+  {
+    "id": 12,
+    "question": "The movie had a ____ ending. We were all crying.",
+    "options": [
+      "angry",
+      "red",
+      "sad",
+      "loud"
+    ],
+    "correctAnswer": "C"
+  },
+  {
+    "id": 13,
+    "question": "The box was so ____ that even Ramesh could not pick it up.",
+    "options": [
+      "heavy",
+      "kind",
+      "noisy",
+      "light"
+    ],
+    "correctAnswer": "A"
+  },
+  {
+    "id": 14,
+    "question": "Curiously, I was not all that ____ or afraid.",
+    "options": [
+      "settled",
+      "startled",
+      "startle",
+      "agitate"
+    ],
+    "correctAnswer": "B"
+  },
+  {
+    "id": 15,
+    "question": "There is very ____ space left in the suitcase.",
+    "options": [
+      "little",
+      "few",
+      "much",
+      "some"
+    ],
+    "correctAnswer": "A"
+  },
+  {
+    "direction": "Directions (For Q.16 to 22): Choose the appro private adjective according to the word.",
+    "questions": [
+      {
+        "id": 16,
+        "question": "Sense",
+        "options": [
+          "Sensible",
+          "Sensibly",
+          "Senses",
+          "None of these"
+        ],
+        "correctAnswer": "A"
+      },
+      {
+        "id": 17,
+        "question": "Devote",
+        "options": [
+          "Devoted",
+          "Devoting",
+          "Devotionally",
+          "None of these"
+        ],
+        "correctAnswer": "A"
+      },
+      {
+        "id": 18,
+        "question": "Faith",
+        "options": [
+          "Faithfulness",
+          "Faithedness",
+          "Faithful",
+          "None of these"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 19,
+        "question": "Cheer",
+        "options": [
+          "Cheerful",
+          "Cheerfulness",
+          "Cheering",
+          "None of these"
+        ],
+        "correctAnswer": "A"
+      },
+      {
+        "id": 20,
+        "question": "Heaven",
+        "options": [
+          "Heavenful",
+          "Heavenly",
+          "Heaveness",
+          "None of these"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 21,
+        "question": "Salt",
+        "options": [
+          "Saltness",
+          "Salty",
+          "Saltful",
+          "None of these"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 22,
+        "question": "Pride",
+        "options": [
+          "Proudly",
+          "Proof",
+          "Prideness",
+          "None of these"
+        ],
+        "correctAnswer": "B"
+      }
+    ]
+  },
+  {
+    "direction": "Directions (For Q.23 to 30): Fill in the blanks with the most appropriate degree of adjective.",
+    "questions": [
+      {
+        "id": 23,
+        "question": "He bought her the _________ expensive ring from the shop.",
+        "options": [
+          "more",
+          "most",
+          "mostest",
+          "much"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 24,
+        "question": "The event was held at a _________ venue as compared to the previous year.",
+        "options": [
+          "more",
+          "most",
+          "largest",
+          "largely"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 25,
+        "question": "She had the _________ looking outfit of the two.",
+        "options": [
+          "good",
+          "better",
+          "best",
+          "well"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 26,
+        "question": "Sally can run the _________ in her class.",
+        "options": [
+          "fast",
+          "faster",
+          "fastest",
+          "fastly"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 27,
+        "question": "Their boss asked them to do a _________ job next time.",
+        "options": [
+          "good",
+          "better",
+          "worse",
+          "best"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 28,
+        "question": "Out of all the choices, this is the _________ of my favourite.",
+        "options": [
+          "least",
+          "less",
+          "lesser",
+          "lest"
+        ],
+        "correctAnswer": "A"
+      },
+      {
+        "id": 29,
+        "question": "She made the _________ of her time while her parents were away.",
+        "options": [
+          "less",
+          "most",
+          "more",
+          "much"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 30,
+        "question": "We can hear the waves _________ as we come closer to the beach.",
+        "options": [
+          "louder",
+          "loud",
+          "loudest",
+          "loudly"
+        ],
+        "correctAnswer": "A"
+      }
+    ]
+  },
+  {
+    "direction": "Directions (For Q.31 to 35): Identify the kinds of adjective for the underlined words in the given sentences.",
+    "questions": [
+      {
+        "id": 31,
+        "question": "This jacket is very warm and soft.",
+        "options": [
+          "Adjective of quantity",
+          "Demonstrative adjective",
+          "Interrogative adjective",
+          "None of these"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 32,
+        "question": "Meera has always been bright and cheerful since childhood.",
+        "options": [
+          "Demonstrative adjective",
+          "Adjective of quantity",
+          "Adjective of quality",
+          "None of these"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 33,
+        "question": "Every child must have access to education.",
+        "options": [
+          "Adjective of quality",
+          "Distributive adjective",
+          "Adjective of possession",
+          "None of these"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 34,
+        "question": "Her family is supportive of her choices.",
+        "options": [
+          "Adjective of quality",
+          "Demonstrative adjective",
+          "Adjective of possession",
+          "None of these"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 35,
+        "question": "Which building is the tallest in the world?",
+        "options": [
+          "Adjective of quality",
+          "Demonstrative adjective",
+          "Interrogative adjective",
+          "None of these"
+        ],
+        "correctAnswer": "C"
+      }
+    ]
+  },
+  {
+    "direction": "Directions (For Q.36 to 40): Re-arrange the adjective in the proper order and re-write the group of words.",
+    "questions": [
+      {
+        "id": 36,
+        "question": "(blue, old, an, Chinese) vase",
+        "options": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "correctAnswer": "an old blue Chinese vase"
+      },
+      {
+        "id": 37,
+        "question": "(soft, round, Danish, a) pastry",
+        "options": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "correctAnswer": "a soft round Danish pastry"
+      },
+      {
+        "id": 38,
+        "question": "(two, hungry, big) dogs",
+        "options": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "correctAnswer": "two big hungry dogs"
+      },
+      {
+        "id": 39,
+        "question": "(square, pink, beautiful) table",
+        "options": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "correctAnswer": "beautiful square pink table"
+      },
+      {
+        "id": 40,
+        "question": "(ripe, small, yellow) mangoes",
+        "options": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "correctAnswer": "small ripe yellow mangoes"
+      }
+    ]
+  },
+  {
+    "direction": "Directions (For Q.41 to 45): Fill in the blank with appropriate adjective.",
+    "header":"I have a 41 persian cat. It likes to sneak into my 42 bag and sleep in it for hours. But my cat has been growing 43 these days and it can no longer fit itself in the bag. 44 bag has been its bed all these months and now my cat is sad and 45 because her big body cannot fit inside its favourite sleeping place.",
+    "questions": [
+      {
+        "id": 41,
+        "question": "41",
+        "options": [
+          "square",
+          "cute",
+          "cuter",
+          "my"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 42,
+        "question": "42",
+        "options": [
+          "yellow",
+          "that",
+          "where",
+          "angry"
+        ],
+        "correctAnswer": "A"
+      },
+      {
+        "id": 43,
+        "question": "43",
+        "options": [
+          "biggest",
+          "bigger",
+          "largest",
+          "her"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 44,
+        "question": "44",
+        "options": [
+          "Smart",
+          "That",
+          "These",
+          "Those"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 45,
+        "question": "45",
+        "options": [
+          "happy",
+          "happier",
+          "disappointed",
+          "disappear"
+        ],
+        "correctAnswer": "C"
+      }
+    ]
+  },
+  {
+    "direction": "Directions (For Q.46 to 50): Fill in the blanks with suitable options.",
+    "header":"Achievers Section (HOTS)",
+    "questions": [
+      {
+        "id": 46,
+        "question": "I am with envy.",
+        "options": [
+          "cry",
+          "black",
+          "green",
+          "large"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 47,
+        "question": "That song reminded him of days.",
+        "options": [
+          "happiest",
+          "happier",
+          "large",
+          "more"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 48,
+        "question": "The new job means bigger pay but working hours.",
+        "options": [
+          "short",
+          "big",
+          "longer",
+          "long"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 49,
+        "question": "I'm sorry I've had days.",
+        "options": [
+          "well",
+          "better",
+          "happily",
+          "sadly"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 50,
+        "question": "You look in feminine dresses than casual ones.",
+        "options": [
+          "her",
+          "cute",
+          "cuter",
+          "cutest"
+        ],
+        "correctAnswer": "C"
+      }
+    ]
+  }
+]

@@ -1,0 +1,594 @@
+[
+  {
+    "direction": "Directions (For Q.1 to 10): Identify the kind of pronouns for the underlined word in the following sentences.",
+    "questions": [
+      {
+        "id": 1,
+        "question": "They left this afternoon.",
+        "options": [
+          "Possessive pronoun",
+          "Personal pronoun",
+          "Interrogative pronoun",
+          "Distributive pronoun"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 2,
+        "question": "The dress looked good on her.",
+        "options": [
+          "Possessive",
+          "Reflexive",
+          "Distributive",
+          "Personal"
+        ],
+        "correctAnswer": "D"
+      },
+      {
+        "id": 3,
+        "question": "Why is the floor wet?",
+        "options": [
+          "Personal",
+          "Interrogative",
+          "Reflexive",
+          "Possessive"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 4,
+        "question": "This is my colour book here.",
+        "options": [
+          "Possessive",
+          "Reflexive",
+          "Demonstrative",
+          "Interrogative"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 5,
+        "question": "My mother cooked all of these by herself.",
+        "options": [
+          "Distributive",
+          "Reflexive",
+          "Interrogative",
+          "Possessive"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 6,
+        "question": "I think the car parked at the gate is yours.",
+        "options": [
+          "Reflexive",
+          "Distributive",
+          "Possessive",
+          "Interrogative"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 7,
+        "question": "He made a paper plane.",
+        "options": [
+          "Possessive",
+          "Personal",
+          "Reflexive",
+          "Relative"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 8,
+        "question": "This is the house that was burnt yesterday.",
+        "options": [
+          "Personal",
+          "Possessive",
+          "Relative",
+          "Reflexive"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 9,
+        "question": "None of the students could solve the problem.",
+        "options": [
+          "Personal",
+          "Reflexive",
+          "Possessive",
+          "Distributive"
+        ],
+        "correctAnswer": "D"
+      },
+      {
+        "id": 10,
+        "question": "I like people who are punctual.",
+        "options": [
+          "Personal",
+          "Relative",
+          "Possessive",
+          "Interrogative"
+        ],
+        "correctAnswer": "B"
+      }
+    ]
+  },
+  {
+    "direction": "Directions (For Q.11 to 20): Fill in the blanks with the correct pronouns from the given options.",
+    "questions": [
+      {
+        "id": 11,
+        "question": "Make sure ______ send these letters today.",
+        "options": [
+          "she",
+          "he",
+          "you",
+          "it"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 12,
+        "question": "______ moved my table?",
+        "options": [
+          "Who",
+          "Which",
+          "Whose",
+          "Our"
+        ],
+        "correctAnswer": "A"
+      },
+      {
+        "id": 13,
+        "question": "Please share Rima's number. I need to call ______.",
+        "options": [
+          "she",
+          "her",
+          "him",
+          "whom"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 14,
+        "question": "Have fun cleaning the house by ______.",
+        "options": [
+          "himself",
+          "which",
+          "yourself",
+          "when"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 15,
+        "question": "She gave ______ one of her friends a chocobar.",
+        "options": [
+          "each",
+          "they",
+          "many",
+          "he"
+        ],
+        "correctAnswer": "A"
+      },
+      {
+        "id": 16,
+        "question": "Since your idea is not working, let's try ______.",
+        "options": [
+          "she",
+          "mine",
+          "we",
+          "where"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 17,
+        "question": "Is that your uncle ______ lives in China?",
+        "options": [
+          "her",
+          "those",
+          "who",
+          "himself"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 18,
+        "question": "My grades are so bad ______ I don't want to share.",
+        "options": [
+          "him",
+          "whom",
+          "mine",
+          "that"
+        ],
+        "correctAnswer": "D"
+      },
+      {
+        "id": 19,
+        "question": "Bring a glass of water,",
+        "options": [
+          "which",
+          "him",
+          "she",
+          "our"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 20,
+        "question": "______ was this picture taken?",
+        "options": [
+          "That",
+          "Mine",
+          "When",
+          "Whom"
+        ],
+        "correctAnswer": "C"
+      }
+    ]
+  },
+  {
+    "direction": "Directions (For Q.21 to 25): Fill in the blanks with appropriate reflexive pronouns.",
+    "questions": [
+      {
+        "id": 21,
+        "question": "The workers take care of their lunch ______.",
+        "options": [
+          "themselves",
+          "herself",
+          "themself",
+          "yourself"
+        ],
+        "correctAnswer": "A"
+      },
+      {
+        "id": 22,
+        "question": "Is he going to the movie by ______?",
+        "options": [
+          "themselves",
+          "himself",
+          "herself",
+          "myself"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 23,
+        "question": "She never stops talking about ______.",
+        "options": [
+          "themselves",
+          "himself",
+          "herself",
+          "myself"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 24,
+        "question": "We created these problems by ______.",
+        "options": [
+          "myself",
+          "ourselves",
+          "himself",
+          "itself"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 25,
+        "question": "The machine is not getting fixed by ______.",
+        "options": [
+          "ourselves",
+          "himself",
+          "itself",
+          "herself"
+        ],
+        "correctAnswer": "C"
+      }
+    ]
+  },
+  {
+    "direction": "Directions (For Q.26 to 30): Choose the correct option to replace the words in bold.",
+    "questions": [
+      {
+        "id": 26,
+        "question": "Sheila likes ice cream. Sheila eats ice cream every day.",
+        "options": [
+          "Her",
+          "She",
+          "He",
+          "Him"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 27,
+        "question": "Jack and I have homework. Jack and I will come after completing our homework.",
+        "options": [
+          "Our",
+          "He",
+          "We",
+          "Her"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 28,
+        "question": "The sky is vast. The sky is also blue in colour.",
+        "options": [
+          "He",
+          "Her",
+          "Me",
+          "It"
+        ],
+        "correctAnswer": "D"
+      },
+      {
+        "id": 29,
+        "question": "Alex is playing outside. Tell Alex to come inside.",
+        "options": [
+          "him",
+          "his",
+          "they",
+          "them"
+        ],
+        "correctAnswer": "A"
+      },
+      {
+        "id": 30,
+        "question": "Hyderabad is a beautiful place. Hyderabad is famous for biryani.",
+        "options": [
+          "Then",
+          "It",
+          "Her",
+          "Him"
+        ],
+        "correctAnswer": "B"
+      }
+    ]
+  },
+  {
+    "direction": "Directions (For Q.31 to 35): Fill in the blanks with appropriate pronouns.",
+    "questions": [
+      {
+        "id": 31,
+        "question": "______ is my cat.",
+        "options": [
+          "These",
+          "Those",
+          "This",
+          "They"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 32,
+        "question": "______ need extra help in the kitchen.",
+        "options": [
+          "Those",
+          "They",
+          "Them",
+          "Their"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 33,
+        "question": "______ are the kids waving at me from the balcony.",
+        "options": [
+          "Those",
+          "Which",
+          "These",
+          "They"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 34,
+        "question": "______ are not the books I ordered.",
+        "options": [
+          "That",
+          "These",
+          "This",
+          "Which"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 35,
+        "question": "______ are the kites I want to buy.",
+        "options": [
+          "Those",
+          "This",
+          "That",
+          "Where"
+        ],
+        "correctAnswer": "A"
+      }
+    ]
+  },
+  {
+    "direction": "Directions (For Q.36 to 40): Write True or False for the following sentences.",
+    "questions": [
+      {
+        "id": 36,
+        "question": "Pronouns used as distributor of a person or thing is called relative pronoun.",
+        "options": [
+          "True",
+          "False",
+          "",
+          ""
+        ],
+        "correctAnswer": "False"
+      },
+      {
+        "id": 37,
+        "question": "Reflexive pronouns are same as emphatic pronouns but their use is different.",
+        "options": [
+          "True",
+          "False",
+          "",
+          ""
+        ],
+        "correctAnswer": "True"
+      },
+      {
+        "id": 38,
+        "question": "Possessive pronoun needs an apostrophe's.",
+        "options": [
+          "True",
+          "False",
+          "",
+          ""
+        ],
+        "correctAnswer": "False"
+      },
+      {
+        "id": 39,
+        "question": "Interrogative pronouns are always used for asking questions.",
+        "options": [
+          "True",
+          "False",
+          "",
+          ""
+        ],
+        "correctAnswer": "True"
+      },
+      {
+        "id": 40,
+        "question": "Indefinite pronoun refers to a particular pronoun, place or thing.",
+        "options": [
+          "True",
+          "False",
+          "",
+          ""
+        ],
+        "correctAnswer": "False"
+      }
+    ]
+  },
+  {
+    "direction": "Directions (For Q.41 to 45): Fill in the blanks with suitable pronouns given in the options.",
+    "header": "A clumsy waitress named Julia did not like Monday mornings. Mondays were very busy days. Besides (40) clumsiness, Julia had another problem. (41) was very forgetful. There were times when the customers were served wrong order by (42). (43) have complained about Julia before. Mondays are bad days for Julia (44) reminds her of school.",
+    "questions": [
+      {
+        "id": 41,
+        "question": "41.",
+        "options": [
+          "she",
+          "her",
+          "he",
+          "him"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 42,
+        "question": "42.",
+        "options": [
+          "He",
+          "I",
+          "She",
+          "They"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 43,
+        "question": "43.",
+        "options": [
+          "her",
+          "he",
+          "she",
+          "him"
+        ],
+        "correctAnswer": "A"
+      },
+      {
+        "id": 44,
+        "question": "44.",
+        "options": [
+          "She",
+          "It",
+          "He",
+          "They"
+        ],
+        "correctAnswer": "D"
+      },
+      {
+        "id": 45,
+        "question": "45.",
+        "options": [
+          "Her",
+          "It",
+          "She",
+          "Him"
+        ],
+        "correctAnswer": "B"
+      }
+    ]
+  },
+  {
+    "direction": "Directions (For Q.46 to 50): Choose the correct option to fill in the blank.",
+    "header": "Achievers Section (HOTS)",
+    "questions": [
+      {
+        "id": 46,
+        "question": "My brother loves his job. It was meant for (46).",
+        "options": [
+          "he",
+          "him",
+          "us",
+          "her"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 47,
+        "question": "This is the part of the movie (47) me emotional.",
+        "options": [
+          "who",
+          "where",
+          "that",
+          "they"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 48,
+        "question": "They stopped the car in the middle of (48).",
+        "options": [
+          "there",
+          "nowhere",
+          "everywhere",
+          "all"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 49,
+        "question": "The message (49) is self-explanatory.",
+        "options": [
+          "herself",
+          "myself",
+          "itself",
+          "where"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 50,
+        "question": "(50) is falling apart.",
+        "options": [
+          "Her",
+          "Everything",
+          "Somewhere",
+          "Him"
+        ],
+        "correctAnswer": "B"
+      }
+    ]
+  }
+]

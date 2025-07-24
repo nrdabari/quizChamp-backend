@@ -1,0 +1,599 @@
+[
+  {
+    "direction": "Directions (For Q.1 to 15): Identify the type of nouns for the underlined words.",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Strawberry is my favourite fruit.",
+        "options": [
+          "Collective",
+          "Common",
+          "Proper",
+          "Abstract"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 2,
+        "question": "I have enough money to buy a cake.",
+        "options": [
+          "Abstract",
+          "Proper",
+          "Collective",
+          "Abstract"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 3,
+        "question": "Christmas is celebrated every year in our family.",
+        "options": [
+          "Collective",
+          "Abstract",
+          "Common",
+          "Proper"
+        ],
+        "correctAnswer": "D"
+      },
+      {
+        "id": 4,
+        "question": "The jury decided that the accused was guilty.",
+        "options": [
+          "Collective",
+          "Abstract",
+          "Proper",
+          "Common"
+        ],
+        "correctAnswer": "A"
+      },
+      {
+        "id": 5,
+        "question": "The grandfather shared many words of wisdom with his grandchildren.",
+        "options": [
+          "Proper",
+          "Collective",
+          "Abstract",
+          "Concrete"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 6,
+        "question": "Max is playing with his pet.",
+        "options": [
+          "Abstract",
+          "Collective",
+          "Proper",
+          "Common"
+        ],
+        "correctAnswer": "D"
+      },
+      {
+        "id": 7,
+        "question": "Selina is going through a divorce.",
+        "options": [
+          "Common",
+          "Proper",
+          "Collective",
+          "Abstract"
+        ],
+        "correctAnswer": "A"
+      },
+      {
+        "id": 8,
+        "question": "Someday I plan to visit Mt. Fuji in Japan.",
+        "options": [
+          "Common",
+          "Proper",
+          "Collective",
+          "Abstract"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 9,
+        "question": "I just saw a host of sparrows on the banyan tree.",
+        "options": [
+          "Proper",
+          "Concrete",
+          "Collective",
+          "Abstract"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 10,
+        "question": "Harry misplaced his book this morning.",
+        "options": [
+          "Proper",
+          "Concrete",
+          "Collective",
+          "Abstract"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 11,
+        "question": "Lion King is my favourite movie.",
+        "options": [
+          "Common",
+          "Proper",
+          "Collective",
+          "Abstract"
+        ],
+        "correctAnswer": "A"
+      },
+      {
+        "id": 12,
+        "question": "Mr. Park is my neighbour.",
+        "options": [
+          "Proper",
+          "Abstract",
+          "Common",
+          "Collective"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 13,
+        "question": "I am planning to visit James tomorrow.",
+        "options": [
+          "Collective",
+          "Proper",
+          "Common",
+          "Abstract"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 14,
+        "question": "Can I have some extra sugar?",
+        "options": [
+          "Proper",
+          "Collective",
+          "Concrete",
+          "Abstract"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 15,
+        "question": "The athlete's shirt was dripping in sweat.",
+        "options": [
+          "Abstract",
+          "Proper",
+          "Collective",
+          "Common"
+        ],
+        "correctAnswer": "D"
+      }
+    ]
+  },
+  {
+    "direction": "Directions (For Q.16 to 20): Fill in the blanks with the correct noun from the given options.",
+    "questions": [
+      {
+        "id": 16,
+        "question": "I saw a ______ of chicks in the backyard.",
+        "options": [
+          "team",
+          "brood",
+          "hive",
+          "can"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 17,
+        "question": "I'm buying my sister a ______ of flowers for her birthday.",
+        "options": [
+          "school",
+          "nest",
+          "herd",
+          "bouquet"
+        ],
+        "correctAnswer": "D"
+      },
+      {
+        "id": 18,
+        "question": "Bella and Tina are ______ friends.",
+        "options": [
+          "table",
+          "childhood",
+          "trees",
+          "green"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 19,
+        "question": "Blood is red in ______.",
+        "options": [
+          "taste",
+          "school",
+          "colour",
+          "doctor"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 20,
+        "question": "Swift ______ is needed right now.",
+        "options": [
+          "action",
+          "tea",
+          "herd",
+          "stay"
+        ],
+        "correctAnswer": "A"
+      }
+    ]
+  },
+  {
+    "direction": "Directions (For Q.21 to 25): Fill in the blanks with suitable abstract nouns.",
+    "questions": [
+      {
+        "id": 21,
+        "question": "______ lies in the eyes of the beholder.",
+        "options": [
+          "Scent",
+          "Beauty",
+          "Hatred",
+          "Friendship"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 22,
+        "question": "There is no ______ at work these days.",
+        "options": [
+          "colour",
+          "water",
+          "peace",
+          "fire"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 23,
+        "question": "______ to animals is punishable.",
+        "options": [
+          "Kindness",
+          "Cruelty",
+          "Safety",
+          "Food"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 24,
+        "question": "Their plan turned out to be a ______.",
+        "options": [
+          "wit",
+          "care",
+          "failure",
+          "calm"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 25,
+        "question": "Children's ______ is the most important thing for parents.",
+        "options": [
+          "safety",
+          "ignorance",
+          "failure",
+          "laziness"
+        ],
+        "correctAnswer": "A"
+      }
+    ]
+  },
+  {
+    "direction": "Directions (For Q.26 to 30): Fill in the blanks with the correct collective noun.",
+    "questions": [
+      {
+        "id": 26,
+        "question": "Rohan was playing with a ______ of cards.",
+        "options": [
+          "herd",
+          "choir",
+          "pack",
+          "troop"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 27,
+        "question": "A ______ of soldiers was seen guarding the minister's office.",
+        "options": [
+          "pack",
+          "troop",
+          "herd",
+          "swarm"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 28,
+        "question": "A ______ of cattle is grazing on the field.",
+        "options": [
+          "swarm",
+          "pride",
+          "herd",
+          "hive"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 29,
+        "question": "The fisherman caught a ______ of fish.",
+        "options": [
+          "bottle",
+          "can",
+          "choir",
+          "shoal"
+        ],
+        "correctAnswer": "D"
+      },
+      {
+        "id": 30,
+        "question": "My neighbour is raising a ______ of dogs.",
+        "options": [
+          "drove",
+          "pack",
+          "slice",
+          "circle"
+        ],
+        "correctAnswer": "B"
+      }
+    ]
+  },
+  {
+    "direction": "Directions (For Q.31 to 35): Choose whether the given sentence is true or false.",
+    "questions": [
+      {
+        "id": 31,
+        "question": "Tripura is a proper noun.",
+        "options": [
+          "true",
+          "false",
+          "",
+          ""
+        ],
+        "correctAnswer": "True"
+      },
+      {
+        "id": 32,
+        "question": "Names like David, Michael, Rahul are common nouns. (T/F)",
+        "options": [
+          "true",
+          "false",
+          "",
+          ""
+        ],
+        "correctAnswer": "False"
+      },
+      {
+        "id": 33,
+        "question": "Company names like Samsung, Apple, Lenovo are proper nouns. (T/F)",
+        "options": [
+          "true",
+          "false",
+          "",
+          ""
+        ],
+        "correctAnswer": "True"
+      },
+      {
+        "id": 34,
+        "question": "Abstract nouns can be measured or quantified. (T/F)",
+        "options": [
+          "true",
+          "false",
+          "",
+          ""
+        ],
+        "correctAnswer": "False"
+      },
+      {
+        "id": 35,
+        "question": "Collective nouns are collection of different things put together. (T/F)",
+        "options": [
+          "true",
+          "false",
+          "",
+          ""
+        ],
+        "correctAnswer": "False"
+      }
+    ]
+  },
+  {
+    "direction": "Directions (For Q.36 to 40): Choose the correct option.",
+    "questions": [
+      {
+        "id": 36,
+        "question": "The ______ rises in the east.",
+        "options": [
+          "chain",
+          "sun",
+          "owl",
+          "sugar"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 37,
+        "question": "Gardening is my favourite ______.",
+        "options": [
+          "school",
+          "star",
+          "hobby",
+          "flower"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 38,
+        "question": "Nuva loves reading ______.",
+        "options": [
+          "water",
+          "blue",
+          "spoons",
+          "books"
+        ],
+        "correctAnswer": "D"
+      },
+      {
+        "id": 39,
+        "question": "Elsa is going to ______ next week.",
+        "options": [
+          "sand",
+          "Greece",
+          "writer",
+          "road"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 40,
+        "question": "______ is a state of the mind.",
+        "options": [
+          "Pet",
+          "Exercise",
+          "Happiness",
+          "Tree"
+        ],
+        "correctAnswer": "C"
+      }
+    ]
+  },
+  {
+    "direction": "Directions (For Q.41 to 45): Read the passage given below and identify the kinds of noun for underlined words.",
+    "header":"Gopal watched the creepers spread and grow every day on his way to and back from school and finally one day he decided to taste the abundant tiny fruit. However, first he wanted to be sure they were edible and took some home to his grandmother who said they were a kind of gooseberry. Later that day, Gopal checked on the internet to correctly identify the plant. He found that there were whole pages dedicated to edible fruits and plants found in the wild, as well as imposter plants that looked similar but were actually bad for you.",
+    "questions": [
+      {
+        "id": 41,
+        "question": "Gopal",
+        "options": [
+          "Common",
+          "Proper",
+          "Collective",
+          "Abstract"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 42,
+        "question": "creepers",
+        "options": [
+          "Common",
+          "Proper",
+          "Abstract",
+          "Collective"
+        ],
+        "correctAnswer": "A"
+      },
+      {
+        "id": 43,
+        "question": "grandmother",
+        "options": [
+          "Abstract",
+          "Collective",
+          "Common",
+          "Proper"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 44,
+        "question": "internet",
+        "options": [
+          "Abstract",
+          "Collective",
+          "Common",
+          "Proper"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 45,
+        "question": "wild",
+        "options": [
+          "Abstract",
+          "Proper",
+          "Collective",
+          "Concrete"
+        ],
+        "correctAnswer": "D"
+      }
+    ]
+  },
+  {
+    "direction": "Directions (For Q.46 and 47): Choose the correct option.",
+    "header":"Achievers Section (HOTS)",
+    "questions": [
+      {
+        "id": 46,
+        "question": "We saw a ______ of apes resting in the sanctuary.",
+        "options": [
+          "army",
+          "shrewdness",
+          "pack",
+          "business"
+        ],
+        "correctAnswer": "B"
+      },
+      {
+        "id": 47,
+        "question": "Sugar is a/an ______ noun.",
+        "options": [
+          "abstract",
+          "countable",
+          "uncountable",
+          "proper"
+        ],
+        "correctAnswer": "C"
+      },
+      {
+        "id": 48,
+        "question": "Choose the correct abstract noun of the given word. - Know",
+        "options": [
+          "Known",
+          "Knowledge",
+          "Knowing",
+          "Knowledgeable"
+        ],
+        "correctAnswer": "B"
+      }
+    ]
+  },
+  {
+    "direction": "Directions (For Q.49 and 50): Choose noun from the given options.",
+    "questions": [
+      {
+        "id": 49,
+        "question": "49.",
+        "options": [
+          "Compassion",
+          "Cynical",
+          "Sweetly",
+          "Introduce"
+        ],
+        "correctAnswer": "A"
+      },
+      {
+        "id": 50,
+        "question": "50.",
+        "options": [
+          "Investigate",
+          "Elegant",
+          "Curvy",
+          "Luggage"
+        ],
+        "correctAnswer": "D"
+      }
+    ]
+  }
+]

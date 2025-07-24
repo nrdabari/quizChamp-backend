@@ -1,0 +1,34 @@
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
+
+const RangeSchema = new Schema({
+  text: { type: String, required: false },
+  start: { type: Number, required: false },
+  end: { type: Number, required: false },
+});
+
+const ExerciseSchema = new Schema(
+  {
+    class: { type: Number, required: true },
+    subject: { type: String, required: true },
+    chapter: { type: String },
+    source: {
+      type: String,
+      required: true,
+      enum: [
+        "Workbook",
+        "Olympiad Guide",
+        "Practice Set",
+        "Textbook",
+        "Previous Years Paper",
+      ],
+    },
+
+    directions: [RangeSchema], // optional
+    headers: [RangeSchema], // optional
+    sections: [RangeSchema], // optional
+  },
+  { timestamps: true }
+);
+
+module.exports = mongoose.model("Exercise", ExerciseSchema);
