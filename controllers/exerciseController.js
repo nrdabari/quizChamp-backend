@@ -20,7 +20,19 @@ exports.createExercise = async (req, res) => {
 
 exports.getExercise = async (req, res) => {
   try {
-    const list = await Exercise.find().sort({ createdAt: -1 });
+    const { classLevel } = req.query;
+
+    // Create filter if classLevel is passed
+    const filter = {};
+    if (classLevel) {
+      filter.class = parseInt(classLevel); // assuming classLevel is stored as number
+    }
+
+    const list = await Exercise.find(filter)
+      .sort({ createdAt: -1 })
+      .populate("subjectId", "name") // populate only subject name
+      .populate("chapterId", "name"); // populate only chapter name
+
     const exercisesWithCount = await Promise.all(
       list.map(async (ex) => {
         const count = await Question.countDocuments({ exerciseId: ex._id });
@@ -33,7 +45,7 @@ exports.getExercise = async (req, res) => {
 
     res.json(exercisesWithCount);
   } catch (err) {
-    console.error(err);
+    console.error("❌ Error fetching exercises:", err);
     res.status(500).json({ message: "Failed to fetch exercises" });
   }
 };

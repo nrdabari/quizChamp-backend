@@ -9,6 +9,7 @@ const RangeSchema = new Schema({
 
 const ExerciseSchema = new Schema(
   {
+    name: { type: String, required: true },
     class: { type: Number, required: true },
     subject: { type: String },
     chapter: { type: String },
@@ -29,6 +30,7 @@ const ExerciseSchema = new Schema(
         "Practice Set",
         "Textbook",
         "Previous Years Paper",
+        "Power Math",
       ],
     },
 
