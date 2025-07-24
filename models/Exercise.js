@@ -10,8 +10,16 @@ const RangeSchema = new Schema({
 const ExerciseSchema = new Schema(
   {
     class: { type: Number, required: true },
-    subject: { type: String, required: true },
+    subject: { type: String },
     chapter: { type: String },
+    subjectId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Subject",
+    },
+    chapterId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Chapter",
+    },
     source: {
       type: String,
       required: true,

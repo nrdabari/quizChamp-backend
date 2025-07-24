@@ -18,6 +18,12 @@ app.use("/data", express.static(path.join(__dirname, "data")));
 
 const dataDir = path.join(__dirname, "data");
 
+const subjectRoutes = require("./routes/subjectRoutes");
+app.use("/api/subjects", subjectRoutes);
+
+const chapterRoutes = require("./routes/chapterRoutes");
+app.use("/api/chapters", chapterRoutes);
+
 const exerciseRoutes = require("./routes/exerciseRoutes");
 app.use("/api/exercises", exerciseRoutes);
 

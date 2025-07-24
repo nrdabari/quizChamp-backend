@@ -1,5 +1,7 @@
+const Chapter = require("../models/Chapter");
 const Exercise = require("../models/Exercise");
 const Question = require("../models/Question");
+const Subject = require("../models/Subject");
 
 exports.createExercise = async (req, res) => {
   try {

@@ -1,12 +1,16 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { createExercise, getExercise, getExerciseData } = require('../controllers/exerciseController');
+const {
+  createExercise,
+  getExercise,
+  getExerciseData,
+} = require("../controllers/exerciseController");
 
-router.post('/', createExercise);
+router.post("/", createExercise);
 
 // Get all exercises
-router.get('/', getExercise);
+router.get("/", getExercise);
 
-router.get('/:id', getExerciseData);
+router.get("/:id", getExerciseData);
 
 module.exports = router;
