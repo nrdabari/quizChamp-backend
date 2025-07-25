@@ -112,8 +112,9 @@ exports.getAllSubmissions = async (req, res) => {
     if (exerciseId) filter.exerciseId = exerciseId;
 
     const submissions = await Submission.find(filter)
+      .sort({ createdAt: -1 })
       .populate("userId", "name email")
-      .populate("exerciseId", "subject chapter source");
+      .populate("exerciseId", "subject chapter source name");
 
     res.json(submissions);
   } catch (err) {
@@ -161,6 +162,56 @@ exports.getSubmissionAnswers = async (req, res) => {
     res.json({ attempts });
   } catch (err) {
     console.error("❌ Error in attempted fetch:", err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+exports.getSubmissionReport = async (req, res) => {
+  const { submissionId } = req.params;
+  console.log(req.params);
+  try {
+    const submission = await Submission.findById(submissionId)
+      .populate("answers.questionId")
+      .populate("userId", "name email") // Optional: populate user info
+      .populate("exerciseId", "source name");
+
+    if (!submission) {
+      return res.status(404).json({ message: "Submission not found" });
+    }
+
+    const reportData = submission.answers.map((answer) => {
+      const question = answer.questionId;
+
+      return {
+        questionId: question._id,
+        question: question.question,
+        subQuestion: question.subQuestion,
+        options: question.options,
+        gridOptions: question.gridOptions,
+        correctAnswer: question.correctAnswer,
+        userAnswer: answer.userAnswer,
+        isCorrect: answer.isCorrect,
+        timeTaken: answer.timeTaken,
+        imagePath: question.imagePath || null,
+        optionType: question.optionType,
+      };
+    });
+
+    return res.json({
+      submissionDetails: {
+        userId: submission.userId,
+        exerciseId: submission.exerciseId,
+        startedAt: submission.startedAt,
+        endedAt: submission.endedAt,
+        totalTimeTaken: submission.totalTimeTaken,
+        score: submission.score,
+        status: submission.status,
+        totalTime: submission.totalTime,
+      },
+      questions: reportData,
+    });
+  } catch (error) {
+    console.error("Error fetching submission report:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };

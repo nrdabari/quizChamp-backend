@@ -8,6 +8,7 @@ const {
   pauseSubmission,
   resumeSubmission,
   getSubmissionAnswers,
+  getSubmissionReport,
 } = require("../controllers/submissionController");
 
 router.get("/", getAllSubmissions);
@@ -22,5 +23,8 @@ router.patch("/pause/:submissionId", pauseSubmission);
 router.post("/complete/:submissionId", completeSubmission);
 
 router.get("/attempted/:submissionId", getSubmissionAnswers);
+
+// GET /api/submissions/report/:submissionId
+router.get("/report/:submissionId", getSubmissionReport);
 
 module.exports = router;
