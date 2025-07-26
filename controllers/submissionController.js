@@ -184,6 +184,7 @@ exports.getSubmissionReport = async (req, res) => {
 
       return {
         questionId: question._id,
+        id: question.id,
         question: question.question,
         subQuestion: question.subQuestion,
         options: question.options,
