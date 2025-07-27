@@ -1,20 +1,30 @@
-const Chapter = require("../models/Chapter");
 const Exercise = require("../models/Exercise");
 const Question = require("../models/Question");
-const Subject = require("../models/Subject");
 
-exports.createExercise = async (req, res) => {
+exports.updateExercise = async (req, res) => {
   try {
-    console.log("📥 Received data:", req.body); // ✅ Debug log
+    console.log("📥 Received data:", req.body);
 
-    const exercise = new Exercise(req.body);
-    await exercise.save();
-    res
-      .status(201)
-      .json({ message: "Exercise created successfully", exercise });
+    const { _id, ...exerciseData } = req.body;
+
+    if (_id) {
+      // Update existing
+      const exercise = await Exercise.findByIdAndUpdate(_id, exerciseData, {
+        new: true,
+        runValidators: true,
+      });
+      return res.status(200).json(exercise);
+    } else {
+      // Insert new
+      const exercise = await Exercise.create(exerciseData);
+      return res.status(201).json(exercise);
+    }
   } catch (error) {
-    console.error("Save failed:", error);
-    res.status(500).json({ message: "Failed to save exercise", error });
+    console.error("❌ Error:", error);
+    return res.status(500).json({
+      message: "Server error",
+      error: error.message,
+    });
   }
 };
 
