@@ -168,7 +168,6 @@ exports.getSubmissionAnswers = async (req, res) => {
 
 exports.getSubmissionReport = async (req, res) => {
   const { submissionId } = req.params;
-  console.log(req.params);
   try {
     const submission = await Submission.findById(submissionId)
       .populate("answers.questionId")

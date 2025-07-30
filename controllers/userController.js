@@ -23,3 +23,16 @@ exports.getUserData = async (req, res) => {
     res.status(500).json({ message: "Failed to fetch exercises" });
   }
 };
+
+// Admin can add student
+exports.createStudent = async (req, res) => {
+  const { name, email, password } = req.body;
+  try {
+    const user = await User.create({ name, email, password, role: "student" });
+    res.status(201).json({ message: "Student created", user });
+  } catch (err) {
+    res
+      .status(400)
+      .json({ message: "Error creating student", error: err.message });
+  }
+};

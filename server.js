@@ -36,6 +36,12 @@ app.use("/api/users", userRoutes);
 const submissionRoutes = require("./routes/submissionRoutes");
 app.use("/api/submissions", submissionRoutes);
 
+const practiceRoutes = require("./routes/practiceRoutes");
+app.use("/api/practices", practiceRoutes);
+
+app.use("/api/auth", require("./routes/authRoutes"));
+app.use("/api/users", require("./routes/userRoutes"));
+
 // Serve static files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
