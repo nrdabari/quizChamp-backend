@@ -9,6 +9,7 @@ const {
   updateQuestion,
   getFirstQuestion,
   getQuestionWithAnswer,
+  updateAssignChapters,
 } = require("../controllers/questionController");
 const upload = require("../middlewares/upload");
 
@@ -33,5 +34,8 @@ router.put("/:questionId", updateQuestion);
 router.get("/single/:exerciseId/:id", getFirstQuestion);
 
 router.get("/exam/:submissionId/:exerciseId/:id", getQuestionWithAnswer);
+
+// Route 2: Save chapter assignments
+router.post("/assign/:exerciseId/assign-chapters", updateAssignChapters);
 
 module.exports = router;

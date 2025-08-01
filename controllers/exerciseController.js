@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const Exercise = require("../models/Exercise");
 const Question = require("../models/Question");
 
@@ -71,5 +72,118 @@ exports.getExerciseData = async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({ message: "Error fetching exercise" });
+  }
+};
+
+exports.getChapterAssignData = async (req, res) => {
+  try {
+    const { exerciseId } = req.params;
+
+    // Validate exerciseId format
+    if (!mongoose.Types.ObjectId.isValid(exerciseId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid exercise ID format",
+      });
+    }
+
+    const exerciseObjectId = new mongoose.Types.ObjectId(exerciseId);
+
+    // Single aggregation pipeline that gets all data in one query
+    const result = await Exercise.aggregate([
+      // Match the specific exercise
+      { $match: { _id: exerciseObjectId } },
+
+      // Project only required fields from exercise
+      {
+        $project: {
+          _id: 1,
+          subjectId: 1,
+          name: 1,
+          class: 1,
+          subject: 1,
+          source: 1,
+        },
+      },
+
+      // Lookup chapters for this subject
+      {
+        $lookup: {
+          from: "chapters",
+          let: { subjectId: "$subjectId" },
+          pipeline: [
+            { $match: { $expr: { $eq: ["$subjectId", "$$subjectId"] } } },
+            { $project: { _id: 1, name: 1, chapterNumber: 1, code: 1 } },
+            { $sort: { chapterNumber: 1 } },
+          ],
+          as: "chapters",
+        },
+      },
+
+      // Lookup questions for this exercise
+      {
+        $lookup: {
+          from: "questions",
+          let: { exerciseId: "$_id" },
+          pipeline: [
+            { $match: { $expr: { $eq: ["$exerciseId", "$$exerciseId"] } } },
+            { $project: { _id: 1, id: 1 } },
+            { $sort: { id: 1 } },
+          ],
+          as: "questions",
+        },
+      },
+
+      // Add metadata
+      {
+        $addFields: {
+          metadata: {
+            totalChapters: { $size: "$chapters" },
+            totalQuestions: { $size: "$questions" },
+          },
+        },
+      },
+    ]);
+
+    if (!result || result.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Exercise not found",
+      });
+    }
+
+    const data = result[0];
+
+    res.status(200).json({
+      success: true,
+      data: {
+        exercise: {
+          _id: data._id,
+          subjectId: data.subjectId,
+          name: data.name,
+          class: data.class,
+          subject: data.subject,
+          source: data.source,
+        },
+        chapters: data.chapters,
+        questions: data.questions,
+        metadata: data.metadata,
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching chapter assignment data:", error);
+
+    if (error.name === "CastError") {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid exercise ID format",
+      });
+    }
+
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: process.env.NODE_ENV === "development" ? error.message : undefined,
+    });
   }
 };

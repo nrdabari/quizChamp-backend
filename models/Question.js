@@ -16,6 +16,12 @@ const QuestionSchema = new Schema(
     subQuestion: { type: String },
     correctAnswer: { type: String },
     imagePath: { type: String }, // image path or URL
+    chapterId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Chapter",
+      required: false,
+      default: null,
+    },
   },
   { timestamps: true }
 );

@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Question = require("../models/Question");
 const { deleteImageFile } = require("../utils/fileHelper");
 const Submission = require("../models/Submission");
+const Exercise = require("../models/Exercise");
 
 exports.createQuestions = async (req, res) => {
   try {
@@ -187,5 +188,201 @@ exports.getQuestionWithAnswer = async (req, res) => {
   } catch (err) {
     console.error("❌ Error in getQuestionWithAnswer:", err);
     res.status(500).json({ message: "Internal error" });
+  }
+};
+// Route 2: Save chapter assignments
+exports.updateAssignChapters = async (req, res) => {
+  try {
+    const { exerciseId } = req.params;
+    const assignments = req.body;
+
+    // Validation
+    if (
+      !assignments ||
+      !Array.isArray(assignments) ||
+      assignments.length === 0
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid assignments data",
+      });
+    }
+
+    // Extract all IDs for validation
+    const chapterIds = [...new Set(assignments.map((a) => a.chapterId))]; // Remove duplicates
+    const allQuestionIds = [
+      ...new Set(assignments.flatMap((a) => a.questionIds)),
+    ]; // Remove duplicates
+
+    // Check for duplicate questions across assignments (client-side logic)
+    const questionIdCounts = {};
+    assignments
+      .flatMap((a) => a.questionIds)
+      .forEach((id) => {
+        questionIdCounts[id] = (questionIdCounts[id] || 0) + 1;
+      });
+    const duplicateQuestions = Object.keys(questionIdCounts).filter(
+      (id) => questionIdCounts[id] > 1
+    );
+
+    if (duplicateQuestions.length > 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Duplicate questions found in assignments",
+        duplicateQuestions,
+      });
+    }
+
+    // OPTIMIZATION 1: Combined validation query using aggregation
+    const validationResult = await Exercise.aggregate([
+      {
+        $match: { _id: new mongoose.Types.ObjectId(exerciseId) },
+      },
+      {
+        $lookup: {
+          from: "chapters",
+          let: { subjectId: "$subjectId" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ["$subjectId", "$$subjectId"] },
+                    {
+                      $in: [
+                        "$_id",
+                        chapterIds.map((id) => new mongoose.Types.ObjectId(id)),
+                      ],
+                    },
+                  ],
+                },
+              },
+            },
+            { $project: { _id: 1, name: 1 } },
+          ],
+          as: "validChapters",
+        },
+      },
+      {
+        $lookup: {
+          from: "questions",
+          let: { exerciseId: "$_id" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ["$exerciseId", "$$exerciseId"] },
+                    {
+                      $in: [
+                        "$_id",
+                        allQuestionIds.map(
+                          (id) => new mongoose.Types.ObjectId(id)
+                        ),
+                      ],
+                    },
+                  ],
+                },
+              },
+            },
+            { $project: { _id: 1 } },
+          ],
+          as: "validQuestions",
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          source: 1,
+          subjectId: 1,
+          validChapters: 1,
+          validQuestions: 1,
+          chapterCount: { $size: "$validChapters" },
+          questionCount: { $size: "$validQuestions" },
+        },
+      },
+    ]);
+
+    if (validationResult.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Exercise not found",
+      });
+    }
+
+    const exercise = validationResult[0];
+
+    // Validate exercise source
+    if (exercise.source !== "Previous Years Paper") {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Chapter assignment only allowed for Previous Years Paper exercises",
+      });
+    }
+
+    // Validate chapters
+    if (exercise.chapterCount !== chapterIds.length) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid chapters for this subject",
+      });
+    }
+
+    // Validate questions
+    if (exercise.questionCount !== allQuestionIds.length) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid questions for this exercise",
+      });
+    }
+
+    // OPTIMIZATION 2: More efficient bulk update
+    const bulkOps = assignments.flatMap((assignment) =>
+      assignment.questionIds.map((questionId) => ({
+        updateOne: {
+          filter: {
+            _id: new mongoose.Types.ObjectId(questionId),
+            exerciseId: new mongoose.Types.ObjectId(exerciseId),
+          },
+          update: {
+            $set: {
+              chapterId: new mongoose.Types.ObjectId(assignment.chapterId),
+              updatedAt: new Date(),
+            },
+          },
+        },
+      }))
+    );
+
+    // Execute bulk update with ordered: false for better performance
+    const result = await Question.bulkWrite(bulkOps, { ordered: false });
+
+    // Create response summary
+    const assignmentsSummary = assignments.map((assignment) => {
+      const chapter = exercise.validChapters.find(
+        (c) => c._id.toString() === assignment.chapterId
+      );
+      return {
+        chapterId: assignment.chapterId,
+        chapterName: chapter ? chapter.name : "Unknown",
+        questionsAssigned: assignment.questionIds.length,
+      };
+    });
+
+    res.json({
+      success: true,
+      message: "Chapter assignments saved successfully",
+      data: {
+        totalQuestionsUpdated: result.modifiedCount,
+        assignmentsSummary,
+      },
+    });
+  } catch (error) {
+    console.error("Error saving chapter assignments:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
   }
 };
