@@ -1,9 +1,9 @@
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
 
 // Destination folder
-const uploadDir = path.join(__dirname, '../uploads/questions');
+const uploadDir = path.join(__dirname, "../uploads/questions");
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
   filename: (req, file, cb) => {
     const { questionId } = req.params;
     cb(null, `${questionId}.jpg`);
-  }
+  },
 });
 
 const upload = multer({ storage });

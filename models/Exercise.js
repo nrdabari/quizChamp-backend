@@ -5,6 +5,7 @@ const RangeSchema = new Schema({
   text: { type: String, required: false },
   start: { type: Number, required: false },
   end: { type: Number, required: false },
+  imagePath: { type: String, required: false },
 });
 
 const ExerciseSchema = new Schema(

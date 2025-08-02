@@ -69,7 +69,7 @@ exports.getFailedQById = async (req, res) => {
 
     const question = await Question.findById(questionId).populate(
       "exerciseId",
-      "name class subject chapter"
+      "name class subject chapter directions headers sections"
     );
 
     if (!question) {

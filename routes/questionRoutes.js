@@ -11,7 +11,7 @@ const {
   getQuestionWithAnswer,
   updateAssignChapters,
 } = require("../controllers/questionController");
-const upload = require("../middlewares/upload");
+const upload = require("../middlewares/uploadQuestionImage");
 
 // Create all bulk questions
 router.post("/bulk", createQuestions);

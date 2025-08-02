@@ -1,6 +1,7 @@
 const { default: mongoose } = require("mongoose");
 const Exercise = require("../models/Exercise");
 const Question = require("../models/Question");
+const path = require("path");
 
 exports.updateExercise = async (req, res) => {
   try {
@@ -185,5 +186,87 @@ exports.getChapterAssignData = async (req, res) => {
       message: "Internal server error",
       error: process.env.NODE_ENV === "development" ? error.message : undefined,
     });
+  }
+};
+
+exports.uploadDirectionImage = async (req, res) => {
+  try {
+    const { exerciseId } = req.params;
+    const { directionIndex } = req.body;
+
+    if (!req.file) {
+      return res.status(400).json({ error: "No file uploaded" });
+    }
+
+    const exercise = await Exercise.findById(exerciseId);
+    if (!exercise) {
+      return res.status(404).json({ error: "Exercise not found" });
+    }
+
+    const index = parseInt(directionIndex, 10);
+    if (
+      isNaN(index) ||
+      index < 0 ||
+      !exercise.directions ||
+      index >= exercise.directions.length
+    ) {
+      return res.status(400).json({ error: "Invalid direction index" });
+    }
+
+    const imagePath = `/uploads/directions/${req.file.filename}`;
+    exercise.directions[index].imagePath = imagePath;
+    await exercise.save();
+
+    res.status(200).json({
+      message: "Direction image uploaded successfully",
+      imagePath,
+      exercise,
+    });
+  } catch (error) {
+    console.error("Error uploading direction image:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+exports.deleteDirectionImage = async (req, res) => {
+  try {
+    const { id, directionIndex } = req.params;
+
+    // Find the exercise
+    const exercise = await Exercise.findById(id);
+    if (!exercise) {
+      return res.status(404).json({ error: "Exercise not found" });
+    }
+
+    // Get the image path before removing it
+    const direction = exercise.directions[directionIndex];
+    if (!direction || !direction.imagePath) {
+      return res.status(404).json({ error: "Image not found" });
+    }
+
+    const imagePath = direction.imagePath;
+    const fullPath = path.join(__dirname, "..", imagePath); // Adjust path as needed
+
+    // Remove image path from database
+    exercise.directions[directionIndex].imagePath = "";
+    await exercise.save();
+
+    // Delete the actual file
+    const fs = require("fs").promises;
+    try {
+      await fs.unlink(fullPath);
+      console.log(`Deleted image file: ${fullPath}`);
+    } catch (fileError) {
+      console.warn(`Could not delete file ${fullPath}:`, fileError.message);
+      // Continue even if file deletion fails (file might not exist)
+    }
+
+    res.json({
+      message: "Image removed successfully",
+      imagePath: imagePath,
+    });
+  } catch (error) {
+    console.error("Error removing image:", error);
+    res.status(500).json({ error: "Failed to remove image" });
   }
 };
