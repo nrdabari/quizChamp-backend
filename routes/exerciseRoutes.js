@@ -8,7 +8,7 @@ const {
   uploadDirectionImage,
   deleteDirectionImage,
 } = require("../controllers/exerciseController");
-const upload = require("../middlewares/uploadDirectionImage");
+const upload = require("../middleware/uploadDirectionImage");
 
 router.post("/exercise", updateExercise);
 
