@@ -11,7 +11,8 @@ const {
   getQuestionWithAnswer,
   updateAssignChapters,
 } = require("../controllers/questionController");
-const upload = require("../middleware/uploadQuestionImage");
+// const upload = require("../middleware/uploadQuestionImage");
+const s3Upload = require("../middleware/s3Upload");
 
 // Create all bulk questions
 router.post("/bulk", createQuestions);
@@ -23,7 +24,12 @@ router.get("/count/:exerciseId", countQuestions);
 router.get("/edit/:exerciseId", getQuestions);
 
 // Upload image to question
-router.post("/upload/:questionId", upload.single("image"), uploadQuestionImage);
+// router.post("/upload/:questionId", upload.single("image"), uploadQuestionImage);
+router.post(
+  "/upload/:questionId",
+  s3Upload.single("image"),
+  uploadQuestionImage
+);
 
 // Delete a question
 router.delete("/delete-image/:questionId", deleteQuestionImage);

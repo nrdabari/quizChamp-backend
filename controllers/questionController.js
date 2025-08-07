@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
 const Question = require("../models/Question");
-const { deleteImageFile } = require("../utils/fileHelper");
+const { deleteImageFromS3 } = require("../utils/fileHelper");
 const Submission = require("../models/Submission");
 const Exercise = require("../models/Exercise");
+const s3 = require("../config/aws");
 
 exports.createQuestions = async (req, res) => {
   try {
@@ -60,23 +61,44 @@ exports.getQuestions = async (req, res) => {
 exports.uploadQuestionImage = async (req, res) => {
   try {
     const { questionId } = req.params;
-    const filePath = `/uploads/questions/${questionId}.jpg`;
+
+    if (!req.file) {
+      return res.status(400).json({ message: "No image file uploaded" });
+    }
+
+    // Get the existing question to check for old image
+    const existingQuestion = await Question.findById(questionId);
+    if (!existingQuestion) {
+      return res.status(404).json({ message: "Question not found" });
+    }
+
+    // If there's an existing image, delete it from S3 first
+    if (
+      existingQuestion.imagePath &&
+      existingQuestion.imagePath.includes("s3.")
+    ) {
+      await deleteImageFromS3(existingQuestion.imagePath);
+    }
+
+    // S3 URL is available in req.file.location
+    const s3ImageUrl = req.file.location;
 
     const updated = await Question.findByIdAndUpdate(
       questionId,
       {
-        imagePath: filePath,
+        imagePath: s3ImageUrl, // Store full S3 URL
       },
       { new: true }
     );
 
-    if (!updated)
-      return res.status(404).json({ message: "Question not found" });
-
-    res.json({ message: "✅ Image uploaded successfully", question: updated });
+    res.json({
+      message: "✅ Image uploaded successfully to S3",
+      question: updated,
+      imageUrl: s3ImageUrl,
+    });
   } catch (err) {
     console.error("Upload error:", err);
-    res.status(500).json({ message: "❌ Failed to upload image" });
+    res.status(500).json({ message: "❌ Failed to upload image to S3" });
   }
 };
 
@@ -90,12 +112,21 @@ exports.deleteQuestionImage = async (req, res) => {
     }
 
     if (question.imagePath) {
-      deleteImageFile(question.imagePath); // Pass relative path from DB
-      question.imagePath = null;
-      await question.save();
-    }
+      // Delete from S3 first
+      const deleteSuccess = await deleteImageFromS3(question.imagePath);
 
-    res.json({ message: "🗑️ Image deleted successfully" });
+      if (deleteSuccess) {
+        question.imagePath = null;
+        await question.save();
+        res.json({
+          message: "🗑️ Image deleted successfully from S3 and database",
+        });
+      } else {
+        res.status(500).json({ message: "Failed to delete image from S3" });
+      }
+    } else {
+      res.json({ message: "No image found to delete" });
+    }
   } catch (err) {
     console.error("❌ Error deleting image:", err);
     res.status(500).json({ message: "Server error while deleting image" });
