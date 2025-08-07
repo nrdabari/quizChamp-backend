@@ -2,6 +2,7 @@ const { default: mongoose } = require("mongoose");
 const Exercise = require("../models/Exercise");
 const Question = require("../models/Question");
 const path = require("path");
+const s3 = require("../config/aws"); // Make sure to import S3
 
 exports.updateExercise = async (req, res) => {
   try {
@@ -189,6 +190,162 @@ exports.getChapterAssignData = async (req, res) => {
   }
 };
 
+// exports.uploadDirectionImage = async (req, res) => {
+//   try {
+//     const { exerciseId } = req.params;
+//     const { directionIndex } = req.body;
+
+//     if (!req.file) {
+//       return res.status(400).json({ error: "No file uploaded" });
+//     }
+
+//     const exercise = await Exercise.findById(exerciseId);
+//     if (!exercise) {
+//       return res.status(404).json({ error: "Exercise not found" });
+//     }
+
+//     const index = parseInt(directionIndex, 10);
+//     if (
+//       isNaN(index) ||
+//       index < 0 ||
+//       !exercise.directions ||
+//       index >= exercise.directions.length
+//     ) {
+//       return res.status(400).json({ error: "Invalid direction index" });
+//     }
+
+//     const imagePath = `/uploads/directions/${req.file.filename}`;
+//     exercise.directions[index].imagePath = imagePath;
+//     await exercise.save();
+
+//     res.status(200).json({
+//       message: "Direction image uploaded successfully",
+//       imagePath,
+//       exercise,
+//     });
+//   } catch (error) {
+//     console.error("Error uploading direction image:", error);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// };
+
+// exports.deleteDirectionImage = async (req, res) => {
+//   try {
+//     const { id, directionIndex } = req.params;
+
+//     // Find the exercise
+//     const exercise = await Exercise.findById(id);
+//     if (!exercise) {
+//       return res.status(404).json({ error: "Exercise not found" });
+//     }
+
+//     // Get the image path before removing it
+//     const direction = exercise.directions[directionIndex];
+//     if (!direction || !direction.imagePath) {
+//       return res.status(404).json({ error: "Image not found" });
+//     }
+
+//     const imagePath = direction.imagePath;
+//     const fullPath = path.join(__dirname, "..", imagePath); // Adjust path as needed
+
+//     // Remove image path from database
+//     exercise.directions[directionIndex].imagePath = "";
+//     await exercise.save();
+
+//     // Delete the actual file
+//     const fs = require("fs").promises;
+//     try {
+//       await fs.unlink(fullPath);
+//       console.log(`Deleted image file: ${fullPath}`);
+//     } catch (fileError) {
+//       console.warn(`Could not delete file ${fullPath}:`, fileError.message);
+//       // Continue even if file deletion fails (file might not exist)
+//     }
+
+//     res.json({
+//       message: "Image removed successfully",
+//       imagePath: imagePath,
+//     });
+//   } catch (error) {
+//     console.error("Error removing image:", error);
+//     res.status(500).json({ error: "Failed to remove image" });
+//   }
+// };
+
+const deleteDirectionImageFromS3 = async (imageUrl) => {
+  try {
+    if (!imageUrl || !imageUrl.includes("s3.")) {
+      console.log("⏭️ No S3 URL to delete or local path detected");
+      return true;
+    }
+
+    // Extract S3 key from URL
+    // URL: https://olympiad-practice-images.s3.ap-south-1.amazonaws.com/directions/exerciseId-timestamp.jpg
+    // Key: directions/exerciseId-timestamp.jpg
+    const urlParts = imageUrl.split("/");
+    const key = urlParts.slice(-2).join("/");
+
+    const deleteParams = {
+      Bucket: process.env.S3_BUCKET_NAME,
+      Key: key,
+    };
+
+    await s3.deleteObject(deleteParams).promise();
+    console.log(`🗑️ Deleted direction image from S3: ${key}`);
+    return true;
+  } catch (error) {
+    console.error("❌ Error deleting direction image from S3:", error);
+    return false;
+  }
+};
+
+exports.deleteDirectionImage = async (req, res) => {
+  try {
+    const { id: exerciseId, directionIndex } = req.params;
+
+    const exercise = await Exercise.findById(exerciseId);
+    if (!exercise) {
+      return res.status(404).json({ error: "Exercise not found" });
+    }
+
+    const index = parseInt(directionIndex, 10);
+    if (
+      isNaN(index) ||
+      index < 0 ||
+      !exercise.directions ||
+      index >= exercise.directions.length
+    ) {
+      return res.status(400).json({ error: "Invalid direction index" });
+    }
+
+    const existingImagePath = exercise.directions[index].imagePath;
+    if (!existingImagePath) {
+      return res.status(400).json({ error: "No image to delete" });
+    }
+
+    // Delete from S3 first
+    const s3DeleteSuccess = await deleteDirectionImageFromS3(existingImagePath);
+
+    if (!s3DeleteSuccess) {
+      return res.status(500).json({ error: "Failed to delete image from S3" });
+    }
+
+    // Update database
+    exercise.directions[index].imagePath = null;
+    await exercise.save();
+
+    res.json({
+      message: "🗑️ Direction image deleted successfully",
+      directionIndex: index,
+    });
+  } catch (err) {
+    console.error("❌ Error deleting direction image:", err);
+    res
+      .status(500)
+      .json({ error: "Server error while deleting direction image" });
+  }
+};
+
 exports.uploadDirectionImage = async (req, res) => {
   try {
     const { exerciseId } = req.params;
@@ -213,60 +370,27 @@ exports.uploadDirectionImage = async (req, res) => {
       return res.status(400).json({ error: "Invalid direction index" });
     }
 
-    const imagePath = `/uploads/directions/${req.file.filename}`;
-    exercise.directions[index].imagePath = imagePath;
+    // If there's an existing S3 image for this direction, delete it first
+    const existingImagePath = exercise.directions[index].imagePath;
+    if (existingImagePath && existingImagePath.includes("s3.")) {
+      await deleteDirectionImageFromS3(existingImagePath);
+    }
+
+    // Get S3 URL from multer-s3 (automatically uploaded)
+    const s3ImageUrl = req.file.location;
+
+    // Update the specific direction's imagePath
+    exercise.directions[index].imagePath = s3ImageUrl;
     await exercise.save();
 
     res.status(200).json({
-      message: "Direction image uploaded successfully",
-      imagePath,
-      exercise,
+      message: "✅ Direction image uploaded successfully to S3",
+      imagePath: s3ImageUrl,
+      directionIndex: index,
+      exercise: exercise,
     });
   } catch (error) {
-    console.error("Error uploading direction image:", error);
+    console.error("❌ Error uploading direction image to S3:", error);
     res.status(500).json({ error: "Internal server error" });
-  }
-};
-
-exports.deleteDirectionImage = async (req, res) => {
-  try {
-    const { id, directionIndex } = req.params;
-
-    // Find the exercise
-    const exercise = await Exercise.findById(id);
-    if (!exercise) {
-      return res.status(404).json({ error: "Exercise not found" });
-    }
-
-    // Get the image path before removing it
-    const direction = exercise.directions[directionIndex];
-    if (!direction || !direction.imagePath) {
-      return res.status(404).json({ error: "Image not found" });
-    }
-
-    const imagePath = direction.imagePath;
-    const fullPath = path.join(__dirname, "..", imagePath); // Adjust path as needed
-
-    // Remove image path from database
-    exercise.directions[directionIndex].imagePath = "";
-    await exercise.save();
-
-    // Delete the actual file
-    const fs = require("fs").promises;
-    try {
-      await fs.unlink(fullPath);
-      console.log(`Deleted image file: ${fullPath}`);
-    } catch (fileError) {
-      console.warn(`Could not delete file ${fullPath}:`, fileError.message);
-      // Continue even if file deletion fails (file might not exist)
-    }
-
-    res.json({
-      message: "Image removed successfully",
-      imagePath: imagePath,
-    });
-  } catch (error) {
-    console.error("Error removing image:", error);
-    res.status(500).json({ error: "Failed to remove image" });
   }
 };

@@ -8,7 +8,8 @@ const {
   uploadDirectionImage,
   deleteDirectionImage,
 } = require("../controllers/exerciseController");
-const upload = require("../middleware/uploadDirectionImage");
+// const upload = require("../middleware/uploadDirectionImage");
+const s3DirectionsUpload = require("../middleware/s3DirectionsUpload");
 
 router.post("/exercise", updateExercise);
 
@@ -20,9 +21,14 @@ router.get("/:id", getExerciseData);
 router.get("/:exerciseId/chapter-assignment-data", getChapterAssignData);
 
 // POST /api/exercises/:exerciseId/directions/image
+// router.post(
+//   "/:exerciseId/directions/image",
+//   upload.single("image"),
+//   uploadDirectionImage
+// );
 router.post(
   "/:exerciseId/directions/image",
-  upload.single("image"),
+  s3DirectionsUpload.single("image"),
   uploadDirectionImage
 );
 
