@@ -112,7 +112,7 @@ exports.getAllSubmissions = async (req, res) => {
     if (exerciseId) filter.exerciseId = exerciseId;
 
     const submissions = await Submission.find(filter)
-      .sort({ createdAt: -1 })
+      .sort({ updatedAt: -1 })
       .populate("userId", "name email")
       .populate("exerciseId", "subject chapter source name");
 
@@ -155,9 +155,18 @@ exports.getSubmissionAnswers = async (req, res) => {
       return res.status(404).json({ message: "Submission not found" });
     }
 
-    const attempts = submission.answers
+    const attemptsQId = submission.answers
       .filter((ans) => ans.userAnswer && ans.userAnswer.trim() !== "")
-      .map((ans) => ({ questionId: ans.questionId }));
+      .map((ans) => ans.questionId);
+
+    // Fetch only the _id field from Questions collection
+    const questions = await Question.find(
+      { _id: { $in: attemptsQId } },
+      { id: 1 } // projection: only id
+    );
+
+    // Send just the IDs as an array
+    const attempts = questions.map((q) => q.id);
 
     res.json({ attempts });
   } catch (err) {
