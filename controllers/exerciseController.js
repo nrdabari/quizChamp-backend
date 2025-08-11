@@ -3,6 +3,7 @@ const Exercise = require("../models/Exercise");
 const Question = require("../models/Question");
 const path = require("path");
 const s3 = require("../config/aws"); // Make sure to import S3
+const User = require("../models/User");
 
 exports.updateExercise = async (req, res) => {
   try {
@@ -33,18 +34,76 @@ exports.updateExercise = async (req, res) => {
 
 exports.getExercise = async (req, res) => {
   try {
+    const authenticatedUserData = req.user;
+
+    // Handle user role validation and access control
+    if (authenticatedUserData.role === "user") {
+      const userDetails = await User.findById(authenticatedUserData.id);
+
+      // Check if user exists
+      if (!userDetails) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      // Validate user access permissions
+      if (!userDetails.subjectsAccess || !userDetails.sourceAccess) {
+        return res.status(403).json({
+          message:
+            "Access denied: Missing subject or source access permissions",
+        });
+      }
+
+      // Use user's grade level if no classLevel is specified
+      const { classLevel = userDetails.grade } = req.query;
+
+      // Create filter based on class level
+      const filter = {};
+      if (classLevel) {
+        filter.class = parseInt(classLevel);
+      }
+
+      // Add additional filters based on user's access permissions
+      // You might want to filter by subjects the user has access to
+      if (userDetails.subjectsAccess && userDetails.subjectsAccess.length > 0) {
+        filter.subjectId = { $in: userDetails.subjectsAccess };
+      }
+
+      if (userDetails.sourceAccess && userDetails.sourceAccess.length > 0) {
+        filter.source = { $in: userDetails.sourceAccess };
+      }
+
+      filter.isActive = true;
+
+      const list = await Exercise.find(filter)
+        .sort({ createdAt: -1 })
+        .populate("subjectId", "name")
+        .populate("chapterId", "name");
+
+      const exercisesWithCount = await Promise.all(
+        list.map(async (ex) => {
+          const count = await Question.countDocuments({ exerciseId: ex._id });
+          return {
+            ...ex.toObject(),
+            questionCount: count,
+          };
+        })
+      );
+
+      return res.json(exercisesWithCount);
+    }
+
+    // Handle other roles (admin, teacher, etc.)
     const { classLevel } = req.query;
 
-    // Create filter if classLevel is passed
     const filter = {};
     if (classLevel) {
-      filter.class = parseInt(classLevel); // assuming classLevel is stored as number
+      filter.class = parseInt(classLevel);
     }
 
     const list = await Exercise.find(filter)
       .sort({ createdAt: -1 })
-      .populate("subjectId", "name") // populate only subject name
-      .populate("chapterId", "name"); // populate only chapter name
+      .populate("subjectId", "name")
+      .populate("chapterId", "name");
 
     const exercisesWithCount = await Promise.all(
       list.map(async (ex) => {

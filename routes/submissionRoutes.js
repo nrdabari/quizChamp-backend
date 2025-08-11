@@ -10,8 +10,9 @@ const {
   getSubmissionAnswers,
   getSubmissionReport,
 } = require("../controllers/submissionController");
+const { protect } = require("../middleware/auth");
 
-router.get("/", getAllSubmissions);
+router.get("/", protect, getAllSubmissions);
 
 router.put("/start", startSubmission);
 

@@ -1,7 +1,4 @@
-// ============================================================================
-// FILE 1: server/routes/userRoutes.js
-// ============================================================================
-
+// routes/userRoutes.js
 const express = require("express");
 const router = express.Router();
 const {
@@ -9,22 +6,57 @@ const {
   getUserById,
   createUser,
   updateUser,
+  changePassword,
+  toggleUserStatus,
   deleteUser,
+  getUserStatistics,
 } = require("../controllers/userController");
 
-// GET all users
-router.get("/", getAllUsers);
+// Middleware imports
+const { protect, adminOnly } = require("../middleware/auth");
+const {
+  validateUser,
+  validatePasswordChange,
+} = require("../middleware/validation");
 
-// GET user by ID
-router.get("/:id", getUserById);
+// @route   GET /api/users/statistics
+// @desc    Get user statistics
+// @access  Private/Admin
+router.get("/statistics", protect, adminOnly, getUserStatistics);
 
-// POST create user
-router.post("/", createUser);
+// @route   GET /api/users
+// @desc    Get all users with filtering and pagination
+// @access  Private/Admin
+router.get("/", protect, adminOnly, getAllUsers);
 
-// PUT update user
-router.put("/:id", updateUser);
+// @route   POST /api/users
+// @desc    Create new user
+// @access  Private/Admin
+router.post("/", protect, adminOnly, validateUser, createUser);
 
-// DELETE user
-router.delete("/:id", deleteUser);
+// @route   GET /api/users/:id
+// @desc    Get user by ID
+// @access  Private (Admin or own profile)
+router.get("/:id", protect, getUserById);
+
+// @route   PUT /api/users/:id
+// @desc    Update user
+// @access  Private (Admin or own profile with restrictions)
+router.put("/:id", protect, updateUser);
+
+// @route   PUT /api/users/:id/password
+// @desc    Change user password
+// @access  Private (Admin or own profile)
+router.put("/:id/password", protect, validatePasswordChange, changePassword);
+
+// @route   PUT /api/users/:id/toggle-status
+// @desc    Toggle user active status
+// @access  Private/Admin
+router.put("/:id/toggle-status", protect, adminOnly, toggleUserStatus);
+
+// @route   DELETE /api/users/:id
+// @desc    Delete user
+// @access  Private/Admin
+router.delete("/:id", protect, adminOnly, deleteUser);
 
 module.exports = router;

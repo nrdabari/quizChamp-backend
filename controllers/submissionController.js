@@ -105,10 +105,18 @@ exports.completeSubmission = async (req, res) => {
 exports.getAllSubmissions = async (req, res) => {
   try {
     const { userId, exerciseId } = req.query;
+    console.log("authenticated user", req.user);
     const filter = {
       status: { $in: ["completed", "paused"] },
     };
-    if (userId) filter.userId = userId;
+    const authenticatedUserId = req.user.id;
+    const authenticatedUserRole = req.user.role;
+    if (authenticatedUserRole === "user") {
+      if (authenticatedUserId) filter.userId = authenticatedUserId;
+    } else {
+      if (userId) filter.userId = userId;
+    }
+
     if (exerciseId) filter.exerciseId = exerciseId;
 
     const submissions = await Submission.find(filter)

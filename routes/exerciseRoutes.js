@@ -10,11 +10,12 @@ const {
 } = require("../controllers/exerciseController");
 // const upload = require("../middleware/uploadDirectionImage");
 const s3DirectionsUpload = require("../middleware/s3DirectionsUpload");
+const { protect } = require("../middleware/auth");
 
 router.post("/exercise", updateExercise);
 
 // Get all exercises
-router.get("/", getExercise);
+router.get("/", protect, getExercise);
 
 router.get("/:id", getExerciseData);
 

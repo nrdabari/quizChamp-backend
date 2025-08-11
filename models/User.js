@@ -29,8 +29,8 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["admin", "student", "teacher"],
-      default: "student",
+      enum: ["admin", "user", "teacher"],
+      default: "user",
     },
     isActive: {
       type: Boolean,
@@ -42,6 +42,8 @@ const userSchema = new mongoose.Schema(
     refreshToken: {
       type: String,
     },
+    subjectsAccess: { type: Array },
+    sourceAccess: { type: Array },
   },
   {
     timestamps: true,

@@ -38,6 +38,10 @@ const ExerciseSchema = new Schema(
     directions: [RangeSchema], // optional
     headers: [RangeSchema], // optional
     sections: [RangeSchema], // optional
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
   },
   { timestamps: true }
 );
