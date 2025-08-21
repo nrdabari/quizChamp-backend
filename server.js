@@ -140,6 +140,16 @@ try {
   console.log("❌ Error loading practice routes:", error.message);
 }
 
+// TEST 8: task routes
+try {
+  console.log("8. Loading task routes...");
+  const taskRoutes = require("./routes/taskRoutes");
+  app.use("/api/tasks", taskRoutes);
+  console.log("✅ Task routes loaded successfully");
+} catch (error) {
+  console.log("❌ Error loading task routes:", error.message);
+}
+
 // Remove duplicate routes (these were conflicting)
 // app.use("/api/auth", require("./routes/authRoutes"));
 // app.use("/api/users", require("./routes/userRoutes"));
