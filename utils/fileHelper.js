@@ -46,3 +46,19 @@ exports.deleteImageFile = (relativePath) => {
     return false;
   }
 };
+
+exports.getMilliseconds = (timeStr) => {
+  const time = parseInt(timeStr.slice(0, -1));
+  const unit = timeStr.slice(-1);
+
+  switch (unit) {
+    case "d":
+      return time * 24 * 60 * 60 * 1000;
+    case "h":
+      return time * 60 * 60 * 1000;
+    case "m":
+      return time * 60 * 1000;
+    default:
+      return time * 1000;
+  }
+};

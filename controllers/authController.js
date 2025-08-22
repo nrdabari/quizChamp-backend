@@ -5,6 +5,7 @@ const {
   verifyRefreshToken,
   verifyAccessToken,
 } = require("../utils/jwt");
+const { getMilliseconds } = require("../utils/fileHelper");
 
 const register = async (req, res) => {
   try {
@@ -65,13 +66,13 @@ const login = async (req, res) => {
         httpOnly: true,
         sameSite: "Lax",
         secure: false,
-        maxAge: 30 * 60 * 1000,
+        maxAge: getMilliseconds(process.env.JWT_ACCESS_EXPIRE),
       })
       .cookie("refreshToken", refreshToken, {
         httpOnly: true,
         sameSite: "Lax",
         secure: false,
-        maxAge: 7 * 24 * 60 * 60 * 1000,
+        maxAge: getMilliseconds(process.env.JWT_REFRESH_EXPIRE),
       })
       .json({
         user: {
