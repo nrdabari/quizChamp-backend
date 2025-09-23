@@ -189,7 +189,7 @@ exports.getSubmissionReport = async (req, res) => {
     const submission = await Submission.findById(submissionId)
       .populate("answers.questionId")
       .populate("userId", "name email") // Optional: populate user info
-      .populate("exerciseId", "source name");
+      .populate("exerciseId", "source name directions headers");
 
     if (!submission) {
       return res.status(404).json({ message: "Submission not found" });
