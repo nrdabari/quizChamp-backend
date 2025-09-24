@@ -34,7 +34,14 @@ const submissionSchema = new Schema(
     exerciseId: {
       type: Schema.Types.ObjectId,
       ref: "Exercise",
-      required: true,
+      required: false, // Changed from true to false
+      default: null,
+    },
+    chapterId: {
+      type: Schema.Types.ObjectId,
+      ref: "Chapter",
+      required: false,
+      default: null,
     },
     startedAt: {
       type: Date,
@@ -65,5 +72,21 @@ const submissionSchema = new Schema(
     timestamps: true,
   }
 );
+
+// Add validation to ensure either exerciseId or chapterId is present, but not both
+submissionSchema.pre("validate", function (next) {
+  const hasExerciseId = this.exerciseId != null;
+  const hasChapterId = this.chapterId != null;
+
+  if (!hasExerciseId && !hasChapterId) {
+    next(new Error("Either exerciseId or chapterId must be provided"));
+  } else if (hasExerciseId && hasChapterId) {
+    next(
+      new Error("Cannot have both exerciseId and chapterId at the same time")
+    );
+  } else {
+    next();
+  }
+});
 
 module.exports = mongoose.model("Submission", submissionSchema);

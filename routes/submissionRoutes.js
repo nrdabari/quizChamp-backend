@@ -9,6 +9,8 @@ const {
   resumeSubmission,
   getSubmissionAnswers,
   getSubmissionReport,
+  startChapterTest,
+  getChapterTestQuestion,
 } = require("../controllers/submissionController");
 const { protect } = require("../middleware/auth");
 
@@ -27,5 +29,13 @@ router.get("/attempted/:submissionId", getSubmissionAnswers);
 
 // GET /api/submissions/report/:submissionId
 router.get("/report/:submissionId", getSubmissionReport);
+
+// Add this route for chapter tests
+router.post("/chapter-test", protect, startChapterTest);
+
+router.get(
+  "/:submissionId/chapter-question/:questionId",
+  getChapterTestQuestion
+);
 
 module.exports = router;
