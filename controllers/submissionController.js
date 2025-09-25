@@ -250,6 +250,26 @@ exports.getSubmissionReport = async (req, res) => {
 
     const chapterId = submission.chapterId;
 
+    // ✅ Only generate reportData for exercise tests
+    const reportData = submission.answers.map((answer) => {
+      const question = answer.questionId;
+
+      return {
+        questionId: question._id,
+        id: question.id,
+        question: question.question,
+        subQuestion: question.subQuestion,
+        options: question.options,
+        gridOptions: question.gridOptions,
+        correctAnswer: question.correctAnswer,
+        userAnswer: answer.userAnswer,
+        isCorrect: answer.isCorrect,
+        timeTaken: answer.timeTaken,
+        imagePath: question.imagePath || null,
+        optionType: question.optionType,
+      };
+    });
+
     // Add specific details
     if (isChapterTest) {
       const questions = await Question.find({ chapterId }).select("_id");
@@ -263,36 +283,9 @@ exports.getSubmissionReport = async (req, res) => {
         questionIds,
         totalQuestions: questionIds.length,
       };
-
-      // ❌ Don’t generate reportData for chapter test
-      return res.json({
-        submissionDetails,
-        isChapterTest,
-        isExerciseTest,
-      });
     }
 
     if (isExerciseTest) {
-      // ✅ Only generate reportData for exercise tests
-      const reportData = submission.answers.map((answer) => {
-        const question = answer.questionId;
-
-        return {
-          questionId: question._id,
-          id: question.id,
-          question: question.question,
-          subQuestion: question.subQuestion,
-          options: question.options,
-          gridOptions: question.gridOptions,
-          correctAnswer: question.correctAnswer,
-          userAnswer: answer.userAnswer,
-          isCorrect: answer.isCorrect,
-          timeTaken: answer.timeTaken,
-          imagePath: question.imagePath || null,
-          optionType: question.optionType,
-        };
-      });
-
       submissionDetails = {
         ...submissionDetails,
         exerciseId: submission.exerciseId,
@@ -301,14 +294,13 @@ exports.getSubmissionReport = async (req, res) => {
         directions: submission.exerciseId?.directions,
         headers: submission.exerciseId?.headers,
       };
-
-      return res.json({
-        submissionDetails,
-        questions: reportData,
-        isChapterTest,
-        isExerciseTest,
-      });
     }
+    return res.json({
+      submissionDetails,
+      questions: reportData,
+      isChapterTest,
+      isExerciseTest,
+    });
   } catch (error) {
     console.error("Error fetching submission report:", error);
     res.status(500).json({ message: "Internal server error" });
@@ -438,6 +430,61 @@ exports.getChapterTestQuestion = async (req, res) => {
     });
   } catch (error) {
     console.error("Error getting chapter test question:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+exports.getSubmissionChapterReport = async (req, res) => {
+  const { submissionId } = req.params;
+  try {
+    const submission = await Submission.findById(submissionId)
+      .populate("answers.questionId")
+      .populate("chapterId", "name "); // For chapter tests
+
+    if (!submission) {
+      return res.status(404).json({ message: "Submission not found" });
+    }
+
+    // Determine test type
+    const isChapterTest = submission.chapterId && !submission.exerciseId;
+    const isExerciseTest = submission.exerciseId && !submission.chapterId;
+
+    // Build common submission details
+    let submissionDetails = {
+      startedAt: submission.startedAt,
+      endedAt: submission.endedAt,
+      totalTimeTaken: submission.totalTimeTaken,
+      score: submission.score,
+      status: submission.status,
+      totalTime: submission.totalTime,
+      testType: isChapterTest ? "chapter" : "exercise",
+    };
+
+    const chapterId = submission.chapterId;
+
+    // Add specific details
+    if (isChapterTest) {
+      const questions = await Question.find({ chapterId }).select("_id");
+
+      const questionIds = questions.map((q) => q._id);
+      submissionDetails = {
+        ...submissionDetails,
+        chapterId: submission.chapterId?._id,
+        chapterName: submission.chapterId?.name,
+        source: "Previous Years Paper", // Chapter tests are always from previous years
+        questionIds,
+        totalQuestions: questionIds.length,
+      };
+
+      // ❌ Don’t generate reportData for chapter test
+      return res.json({
+        submissionDetails,
+        isChapterTest,
+        isExerciseTest,
+      });
+    }
+  } catch (error) {
+    console.error("Error fetching submission report:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };

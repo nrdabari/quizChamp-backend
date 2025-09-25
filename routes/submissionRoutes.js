@@ -11,6 +11,7 @@ const {
   getSubmissionReport,
   startChapterTest,
   getChapterTestQuestion,
+  getSubmissionChapterReport,
 } = require("../controllers/submissionController");
 const { protect } = require("../middleware/auth");
 
@@ -37,5 +38,7 @@ router.get(
   "/:submissionId/chapter-question/:questionId",
   getChapterTestQuestion
 );
+
+router.get("/chapterTestDetails/:submissionId", getSubmissionChapterReport);
 
 module.exports = router;
