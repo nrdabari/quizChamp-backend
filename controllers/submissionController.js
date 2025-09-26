@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const Question = require("../models/Question");
 const Submission = require("../models/Submission");
 const User = require("../models/User");
@@ -221,22 +222,84 @@ exports.getSubmissionAnswers = async (req, res) => {
 
 exports.getSubmissionReport = async (req, res) => {
   const { submissionId } = req.params;
-  try {
-    const submission = await Submission.findById(submissionId)
-      .populate("answers.questionId")
-      .populate("userId", "name email")
-      .populate("exerciseId", "source name directions headers") // For exercise tests
-      .populate("chapterId", "name "); // For chapter tests
 
-    if (!submission) {
+  try {
+    // 1) Fetch minimal submission to determine test type (lean + projections)
+    const baseSubmission = await Submission.findById(
+      submissionId,
+      "userId startedAt endedAt totalTimeTaken score status totalTime answers questionCount exerciseId chapterId"
+    )
+      .populate("userId", "name email")
+      .populate("exerciseId", "source name directions headers") // only used if exercise test
+      .populate("chapterId", "name") // only used if chapter test
+      .populate({
+        path: "answers.questionId",
+        select:
+          "id question subQuestion options gridOptions correctAnswer imagePath optionType exerciseId", // NOTE: include exerciseId but don't deep-populate yet
+      })
+      .lean();
+
+    if (!baseSubmission) {
       return res.status(404).json({ message: "Submission not found" });
     }
 
-    // Determine test type
-    const isChapterTest = submission.chapterId && !submission.exerciseId;
-    const isExerciseTest = submission.exerciseId && !submission.chapterId;
+    const isChapterTest = !!(
+      baseSubmission.chapterId && !baseSubmission.exerciseId
+    );
+    const isExerciseTest = !!(
+      baseSubmission.exerciseId && !baseSubmission.chapterId
+    );
 
-    // Build common submission details
+    // 2) Conditionally deep-populate ONLY when chapter test (saves time for exercise tests)
+    let submission = baseSubmission;
+    if (isChapterTest) {
+      submission = await Submission.populate(baseSubmission, {
+        path: "answers.questionId.exerciseId",
+        select: "name source directions headers sections",
+      });
+    }
+
+    // Helpers
+    const filterByRange = (items, qNum) =>
+      Array.isArray(items)
+        ? items.filter((x) => x?.start <= qNum && qNum <= x?.end)
+        : [];
+
+    // 3) Build per-question report. Include exerciseData ONLY for chapter tests.
+    const questions = (submission.answers || []).map((ans) => {
+      const q = ans.questionId || {};
+      const qNum = q.id;
+
+      const out = {
+        questionId: q._id,
+        id: qNum,
+        question: q.question,
+        subQuestion: q.subQuestion,
+        options: q.options,
+        gridOptions: q.gridOptions,
+        correctAnswer: q.correctAnswer,
+        userAnswer: ans.userAnswer,
+        isCorrect: ans.isCorrect,
+        timeTaken: ans.timeTaken,
+        imagePath: q.imagePath || null,
+        optionType: q.optionType,
+        exerciseId: q.exerciseId?._id || q.exerciseId || null,
+      };
+
+      if (isChapterTest && q.exerciseId && typeof q.exerciseId === "object") {
+        const ex = q.exerciseId;
+        out.exerciseData = {
+          name: ex.name,
+          source: ex.source,
+          directions: filterByRange(ex.directions, qNum),
+          headers: filterByRange(ex.headers, qNum),
+          sections: filterByRange(ex.sections, qNum),
+        };
+      }
+      return out;
+    });
+
+    // 4) Submission details
     let submissionDetails = {
       userId: submission.userId,
       startedAt: submission.startedAt,
@@ -248,44 +311,19 @@ exports.getSubmissionReport = async (req, res) => {
       testType: isChapterTest ? "chapter" : "exercise",
     };
 
-    const chapterId = submission.chapterId;
-
-    // ✅ Only generate reportData for exercise tests
-    const reportData = submission.answers.map((answer) => {
-      const question = answer.questionId;
-
-      return {
-        questionId: question._id,
-        id: question.id,
-        question: question.question,
-        subQuestion: question.subQuestion,
-        options: question.options,
-        gridOptions: question.gridOptions,
-        correctAnswer: question.correctAnswer,
-        userAnswer: answer.userAnswer,
-        isCorrect: answer.isCorrect,
-        timeTaken: answer.timeTaken,
-        imagePath: question.imagePath || null,
-        optionType: question.optionType,
-      };
-    });
-
-    // Add specific details
     if (isChapterTest) {
-      const questions = await Question.find({ chapterId }).select("_id");
-
-      const questionIds = questions.map((q) => q._id);
+      // Use distinct to avoid pulling full docs
+      const chapterId = submission.chapterId?._id || submission.chapterId;
+      const questionIds = await Question.find({ chapterId }).distinct("_id");
       submissionDetails = {
         ...submissionDetails,
         chapterId: submission.chapterId,
         chapterName: submission.chapterId?.name,
-        source: "Previous Years Paper", // Chapter tests are always from previous years
+        source: "Previous Years Paper",
         questionIds,
         totalQuestions: questionIds.length,
       };
-    }
-
-    if (isExerciseTest) {
+    } else if (isExerciseTest) {
       submissionDetails = {
         ...submissionDetails,
         exerciseId: submission.exerciseId,
@@ -295,15 +333,16 @@ exports.getSubmissionReport = async (req, res) => {
         headers: submission.exerciseId?.headers,
       };
     }
+
     return res.json({
       submissionDetails,
-      questions: reportData,
+      questions,
       isChapterTest,
       isExerciseTest,
     });
-  } catch (error) {
-    console.error("Error fetching submission report:", error);
-    res.status(500).json({ message: "Internal server error" });
+  } catch (err) {
+    console.error("Error fetching submission report:", err);
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -405,27 +444,84 @@ exports.getChapterTestQuestion = async (req, res) => {
   try {
     const { submissionId, questionId } = req.params;
 
-    // Fetch question
-    const question = await Question.findOne(
-      {
-        _id: questionId,
-      },
-      "-correctAnswer -createdAt -updatedAt"
-    );
-    console.log("getChapterTestQuestion", question);
-    if (!question)
-      return res.status(404).json({ message: "No question found" });
-    // Fetch submission and check answer
-    const submission = await Submission.findById(submissionId);
-    if (!submission)
-      return res.status(404).json({ message: "Submission not found" });
+    // Validate ObjectId format
+    if (
+      !mongoose.Types.ObjectId.isValid(questionId) ||
+      !mongoose.Types.ObjectId.isValid(submissionId)
+    ) {
+      return res.status(400).json({ message: "Invalid ID format" });
+    }
 
+    // Parallel queries for better performance
+    const [question, submission] = await Promise.all([
+      Question.findOne(
+        { _id: questionId },
+        "-correctAnswer -createdAt -updatedAt"
+      )
+        .populate({
+          path: "exerciseId",
+          select: "name source directions headers sections",
+        })
+        .lean(), // Use lean() for better performance since we're not modifying
+
+      Submission.findById(submissionId, "answers").lean(), // Only fetch answers field
+    ]);
+
+    if (!question) {
+      return res.status(404).json({ message: "No question found" });
+    }
+    if (!submission) {
+      return res.status(404).json({ message: "Submission not found" });
+    }
+
+    // Check for existing answer
     const existing = submission.answers.find(
       (a) => String(a.questionId) === String(question._id)
     );
 
+    // Handle case where exerciseId might be null
+    if (!question.exerciseId) {
+      return res.json({
+        question: {
+          ...question,
+          exerciseData: {
+            name: "Unknown Exercise",
+            source: "Previous Years Paper",
+            directions: [],
+            headers: [],
+            sections: [],
+          },
+        },
+        userAnswer: existing ? existing.userAnswer : null,
+      });
+    }
+
+    // Optimized filter function - created once
+    const questionIdNum = question.id;
+    const filterByRange = (items) => {
+      if (!Array.isArray(items)) return [];
+      return items.filter((item) => {
+        return item.start <= questionIdNum && questionIdNum <= item.end;
+      });
+    };
+
+    // Build response object
+    const questionWithExerciseData = {
+      ...question,
+      exerciseData: {
+        name: question.exerciseId.name,
+        source: question.exerciseId.source,
+        directions: filterByRange(question.exerciseId.directions),
+        headers: filterByRange(question.exerciseId.headers),
+        sections: filterByRange(question.exerciseId.sections),
+      },
+    };
+
+    // Remove exerciseId reference
+    delete questionWithExerciseData.exerciseId;
+
     return res.json({
-      question,
+      question: questionWithExerciseData,
       userAnswer: existing ? existing.userAnswer : null,
     });
   } catch (error) {
