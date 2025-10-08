@@ -123,6 +123,7 @@ exports.getAllSubmissions = async (req, res) => {
 
     const submissions = await Submission.find(filter)
       .sort({ updatedAt: -1 })
+      .limit(20)
       .populate("userId", "name email")
       .populate("exerciseId", "subject chapter source name")
       .populate("chapterId", "name");
