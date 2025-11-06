@@ -4,14 +4,17 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "schema:doc": "node scripts/gen-schema.js"
+    "dev": "ts-node src/server.ts",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.1692.0",
+    "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.2",
     "body-parser": "^2.2.0",
     "cookie-parser": "^1.4.7",
@@ -22,11 +25,28 @@
     "express-validator": "^7.2.1",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.16.3",
+    "mongoose": "^8.19.1",
+    "morgan": "^1.10.1",
     "multer": "^2.0.2",
-    "multer-s3": "^2.10.0"
+    "multer-s3": "^2.10.0",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "@types/bcrypt": "^6.0.0",
+    "@types/cookie-parser": "^1.4.9",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/mongoose": "^5.11.96",
+    "@types/morgan": "^1.9.10",
+    "@types/node": "^24.7.0",
+    "@typescript-eslint/eslint-plugin": "^8.46.0",
+    "@typescript-eslint/parser": "^8.46.0",
+    "eslint": "^9.37.0",
+    "eslint-config-prettier": "^10.1.8",
+    "nodemon": "^3.1.10",
+    "prettier": "^3.6.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
   }
 }
